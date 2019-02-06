@@ -2,6 +2,7 @@ import ddf.minim.*;
 
 Minim minim;
 AudioPlayer allStar;
+AudioPlayer BR;
 
 float x= 400;
 float y= 400;
@@ -38,111 +39,118 @@ float donkeyY= 400;
 
 void setup()
 {
-  size(800,800);
+  size(800, 800);
   minim = new Minim(this);
   allStar = minim.loadFile("allStar.mp3");
   allStar.play(3000);
+  minim = new Minim(this);
+  BR = minim.loadFile("BR.mp3");
+  BR.play(3000);
 
-donkey= loadImage("donkey.jpg");
-swamp = loadImage("swamp.jpg");
-swamp.resize(800,800);
+
+  donkey= loadImage("donkey.jpg");
+  swamp = loadImage("swamp.jpg");
+  swamp.resize(800, 800);
   duloc= loadImage("duloc.jpg");
- duloc.resize(800,800);
+  duloc.resize(800, 800);
   shrek = loadImage("Shrek.png");
-  shrek.resize(200,300);
+  shrek.resize(200, 300);
   lf= loadImage("Lordfarquadd.jpg");
   ShrekBG= loadImage("ShrekBG.jpg");
- ShrekBG.resize(800,800);
-  }
-  
+  ShrekBG.resize(800, 800);
+}
+
 void draw()
 {
-  
   background(ShrekBG);
   image(shrek, x, y);
   image(lf, lfX, lfY);
-  lf.resize(100,100);
+  lf.resize(100, 100);
   lfY= lfY + 6;
-  
-  if(Screen == 1)
+
+
+  if (Screen == 1)
   {
+    BR.pause();
+    allStar.play();
     background(ShrekBG);
-  image(shrek, x, y);
-  image(lf, lfX, lfY);
-  lf.resize(100,100);
+    image(shrek, x, y);
+    image(lf, lfX, lfY);
+    lf.resize(100, 100);
+   
   }
-  
-  
-  if(lfY>800)
+
+  if (lfY>800)
   {
     lfY = 0; 
     lfX = random(0, 800);
   }
-  
-  if(Screen == 3)
+
+  if (Screen == 3)
   {
+    BR.pause();
+    allStar.play();
     background(duloc);
     image(shrek, x, y);
     image(lf, lfX, lfY);
     lfY= lfY + 2;
-  }
-  
-  if(Screen == 4)
-  {
-    background(swamp);
     
-    image(lf, lfX, lfY);
-  lfY= lfY + 2;
-  image(donkey, x + 20, y +20);
-  donkey.resize(100,300);
   }
-  
-  for(int i = 0; i < allStar.bufferSize() - 1; i++)
+
+  if (Screen == 4)
+  {
+    allStar.pause();
+    BR.play();
+    background(swamp);
+    image(lf, lfX, lfY);
+    lfY= lfY + 2;
+    image(donkey, x + 20, y +20);
+    donkey.resize(100, 300);
+  }
+
+  for (int i = 0; i < allStar.bufferSize() - 1; i++)
   {
     float x1 = map( i, 0, allStar.bufferSize(), 0, width );
     float x2 = map( i+1, 0, allStar.bufferSize(), 0, width );
     line( x1, 50 + allStar.left.get(i)*50, x2, 50 + allStar.left.get(i+1)*50 );
     line( x1, 150 + allStar.right.get(i)*50, x2, 150 + allStar.right.get(i+1)*50 );
   }
-  
 }
 
 void keyPressed()
 {
-  if(key == 'd')
+  if (key == 'd')
   {
     x = x + speed;
   }
-  
-  if(key == 'a')
+
+  if (key == 'a')
   {
     x = x - speed;
   }
-  
- if(key == 's')
-{
-  y = y + speed;
-}
 
-if(key == 'w')
-{
-  y = y - speed;
-}
- 
-  if(key== '3')
+  if (key == 's')
   {
-   Screen = 3;
+    y = y + speed;
   }
-  
-if(key == '4')
-{
- Screen = 4;
-}
-  
-  if(key == '1')
+
+  if (key == 'w')
+  {
+    y = y - speed;
+  }
+
+  if (key== '3')
+  {
+    Screen = 3;
+  }
+
+  if (key == '4')
+  {
+    Screen = 4;
+  }
+
+  if (key == '1')
   {
     Screen= 1;
   }
-  
- 
 }
